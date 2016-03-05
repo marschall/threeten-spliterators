@@ -15,48 +15,48 @@ public class YearMonthStreamTest {
 
   @Test
   public void emptyRange() {
-    Stream<YearMonth> stream = YearMonthStream.range(YearMonth.of(2016, 1), YearMonth.of(2016, 1));
+    Stream<YearMonth> stream = YearMonthStreams.range(YearMonth.of(2016, 1), YearMonth.of(2016, 1));
     assertEquals(0L, stream.count());
   }
 
   @Test
   public void range() {
-    Stream<YearMonth> stream = YearMonthStream.range(YearMonth.of(2016, 1), YearMonth.of(2016, 3));
+    Stream<YearMonth> stream = YearMonthStreams.range(YearMonth.of(2016, 1), YearMonth.of(2016, 3));
     List<YearMonth> actual = stream.collect(Collectors.toList());
     assertEquals(Arrays.asList(YearMonth.of(2016, 1), YearMonth.of(2016, 2)), actual);
   }
 
   @Test
   public void rangeReversed() {
-    Stream<YearMonth> stream = YearMonthStream.range(YearMonth.of(2016, 3), YearMonth.of(2016, 1));
+    Stream<YearMonth> stream = YearMonthStreams.range(YearMonth.of(2016, 3), YearMonth.of(2016, 1));
     List<YearMonth> actual = stream.collect(Collectors.toList());
     assertEquals(Arrays.asList(YearMonth.of(2016, 3), YearMonth.of(2016, 2)), actual);
   }
 
   @Test
   public void skip() {
-    Stream<YearMonth> stream = YearMonthStream.rangeClosed(YearMonth.of(2016, 1), YearMonth.of(2016, 12)).skip(10L);
+    Stream<YearMonth> stream = YearMonthStreams.rangeClosed(YearMonth.of(2016, 1), YearMonth.of(2016, 12)).skip(10L);
     List<YearMonth> actual = stream.collect(Collectors.toList());
     assertEquals(Arrays.asList(YearMonth.of(2016, 11), YearMonth.of(2016, 12)), actual);
   }
 
   @Test
   public void rangeClosed() {
-    Stream<YearMonth> stream = YearMonthStream.rangeClosed(YearMonth.of(2016, 1), YearMonth.of(2016, 2));
+    Stream<YearMonth> stream = YearMonthStreams.rangeClosed(YearMonth.of(2016, 1), YearMonth.of(2016, 2));
     List<YearMonth> actual = stream.collect(Collectors.toList());
     assertEquals(Arrays.asList(YearMonth.of(2016, 1), YearMonth.of(2016, 2)), actual);
   }
 
   @Test
   public void rangeClosedReverse() {
-    Stream<YearMonth> stream = YearMonthStream.rangeClosed(YearMonth.of(2016, 2), YearMonth.of(2016, 1));
+    Stream<YearMonth> stream = YearMonthStreams.rangeClosed(YearMonth.of(2016, 2), YearMonth.of(2016, 1));
     List<YearMonth> actual = stream.collect(Collectors.toList());
     assertEquals(Arrays.asList(YearMonth.of(2016, 2), YearMonth.of(2016, 1)), actual);
   }
 
   @Test
   public void rangeClosedOne() {
-    Stream<YearMonth> stream = YearMonthStream.rangeClosed(YearMonth.of(2016, 1), YearMonth.of(2016, 1));
+    Stream<YearMonth> stream = YearMonthStreams.rangeClosed(YearMonth.of(2016, 1), YearMonth.of(2016, 1));
     List<YearMonth> actual = stream.collect(Collectors.toList());
     assertEquals(Collections.singletonList(YearMonth.of(2016, 1)), actual);
   }
