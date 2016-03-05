@@ -27,6 +27,13 @@ public class YearMonthStreamTest {
   }
 
   @Test
+  public void rangeReversed() {
+    Stream<YearMonth> stream = YearMonthStream.range(YearMonth.of(2016, 3), YearMonth.of(2016, 1));
+    List<YearMonth> actual = stream.collect(Collectors.toList());
+    assertEquals(Arrays.asList(YearMonth.of(2016, 3), YearMonth.of(2016, 2)), actual);
+  }
+
+  @Test
   public void skip() {
     Stream<YearMonth> stream = YearMonthStream.rangeClosed(YearMonth.of(2016, 1), YearMonth.of(2016, 12)).skip(10L);
     List<YearMonth> actual = stream.collect(Collectors.toList());
@@ -38,6 +45,13 @@ public class YearMonthStreamTest {
     Stream<YearMonth> stream = YearMonthStream.rangeClosed(YearMonth.of(2016, 1), YearMonth.of(2016, 2));
     List<YearMonth> actual = stream.collect(Collectors.toList());
     assertEquals(Arrays.asList(YearMonth.of(2016, 1), YearMonth.of(2016, 2)), actual);
+  }
+
+  @Test
+  public void rangeClosedReverse() {
+    Stream<YearMonth> stream = YearMonthStream.rangeClosed(YearMonth.of(2016, 2), YearMonth.of(2016, 1));
+    List<YearMonth> actual = stream.collect(Collectors.toList());
+    assertEquals(Arrays.asList(YearMonth.of(2016, 2), YearMonth.of(2016, 1)), actual);
   }
 
   @Test

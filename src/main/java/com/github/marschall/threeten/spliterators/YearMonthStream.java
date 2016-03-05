@@ -16,16 +16,24 @@ public final class YearMonthStream {
 
   public static Stream<YearMonth> range(YearMonth startInclusive, YearMonth endExclusive) {
     long monthsBetween = MONTHS.between(startInclusive, endExclusive);
-    if (monthsBetween == 0) {
+    if (monthsBetween == 0L) {
       return Stream.empty();
     }
-    return StreamSupport.stream(new IncrementingYearMonthSpliterator(startInclusive, monthsBetween), false);
+    if (monthsBetween > 0L) {
+      return StreamSupport.stream(new IncrementingYearMonthSpliterator(startInclusive, monthsBetween), false);
+    } else {
+      return StreamSupport.stream(new DecrementingYearMonthSpliterator(startInclusive, -monthsBetween), false);
+    }
   }
 
 
   public static Stream<YearMonth> rangeClosed(YearMonth startInclusive, YearMonth endInclusive) {
     long monthsBetween = MONTHS.between(startInclusive, endInclusive);
-    return StreamSupport.stream(new IncrementingYearMonthSpliterator(startInclusive, monthsBetween + 1L), false);
+    if (monthsBetween >= 0L) {
+      return StreamSupport.stream(new IncrementingYearMonthSpliterator(startInclusive, monthsBetween + 1L), false);
+    } else {
+      return StreamSupport.stream(new DecrementingYearMonthSpliterator(startInclusive, -monthsBetween + 1L), false);
+    }
   }
 
   static abstract class AbstractYearMonthSpliterator implements Spliterator<YearMonth> {
