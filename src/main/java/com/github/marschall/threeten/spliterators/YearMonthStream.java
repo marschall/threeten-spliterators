@@ -14,6 +14,19 @@ public final class YearMonthStream {
     throw new AssertionError("not instantiable");
   }
 
+  /**
+   * Returns a sequential ordered {@code Stream<YearMonth>} from
+   * {@code startInclusive} (inclusive) to {@code endExclusive}
+   * (exclusive) by an incremental step of one month.
+   *
+   * <p>If {@code startInclusive} is bigger than {@code endExclusive}
+   * a decremental step of one month is performed instead.</p>
+   *
+   * @param startInclusive the (inclusive) initial value
+   * @param endExclusive the exclusive bound
+   * @return a sequential {@code Stream} for the range of {@code YearMonth}
+   *         elements
+   */
   public static Stream<YearMonth> range(YearMonth startInclusive, YearMonth endExclusive) {
     long monthsBetween = MONTHS.between(startInclusive, endExclusive);
     if (monthsBetween == 0L) {
@@ -26,7 +39,19 @@ public final class YearMonthStream {
     }
   }
 
-
+  /**
+   * Returns a sequential ordered {@code Stream<YearMonth>} from
+   * {@code startInclusive} (inclusive) to {@code endInclusive}
+   * (inclusive) by an incremental step of one month.
+   *
+   * <p>If {@code startInclusive} is bigger than {@code endInclusive}
+   * a decremental step of one month is performed instead.</p>
+   *
+   * @param startInclusive the (inclusive) initial value
+   * @param endInclusive the inclusive bound
+   * @return a sequential {@code Stream} for the range of {@code YearMonth}
+   *         elements
+   */
   public static Stream<YearMonth> rangeClosed(YearMonth startInclusive, YearMonth endInclusive) {
     long monthsBetween = MONTHS.between(startInclusive, endInclusive);
     if (monthsBetween >= 0L) {
