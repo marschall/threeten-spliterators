@@ -61,22 +61,22 @@ public final class YearMonthStream {
     }
   }
 
-  static abstract class AbstractYearMonthSpliterator implements Spliterator<YearMonth> {
+  static abstract class AdvancingSpliterator<T> implements Spliterator<T> {
 
     /**
      * Position of the next read.
      */
-    private YearMonth current;
+    private T current;
     private long left;
 
 
-    AbstractYearMonthSpliterator(YearMonth current, long left) {
+    AdvancingSpliterator(T current, long left) {
       this.current = current;
       this.left = left;
     }
 
     @Override
-    public void forEachRemaining(Consumer<? super YearMonth> action) {
+    public void forEachRemaining(Consumer<? super T> action) {
       while (this.left > 0) {
         action.accept(this.current);
         this.current = advance();
@@ -84,14 +84,18 @@ public final class YearMonthStream {
       }
     }
 
-    private YearMonth advance() {
-      return this.advance(this.current);
+    private T advance(long count) {
+      return this.advance(this.current, count);
     }
 
-    abstract YearMonth advance(YearMonth current);
+    private T advance() {
+      return this.advance(this.current, 1L);
+    }
+
+    abstract T advance(T current, long count);
 
     @Override
-    public boolean tryAdvance(Consumer<? super YearMonth> action) {
+    public boolean tryAdvance(Consumer<? super T> action) {
       if (this.left == 0) {
         return false;
       }
@@ -102,16 +106,18 @@ public final class YearMonthStream {
     }
 
     @Override
-    public Spliterator<YearMonth> trySplit() {
+    public Spliterator<T> trySplit() {
       if (this.left < 1) {
         // empty or size 1 => null
         return null;
       }
       long half = this.left / 2L;
       this.left -= half;
-      Spliterator<YearMonth> result = new IncrementingYearMonthSpliterator(this.current.plusMonths(this.left), half);
-      return result;
+      return this.newInstance(this.advance(this.left), half);
     }
+
+    abstract Spliterator<T> newInstance(T current, long left);
+
     @Override
     public long estimateSize() {
       return this.left;
@@ -128,29 +134,48 @@ public final class YearMonthStream {
 
   }
 
+  abstract static class YearMonthSpliterator extends AdvancingSpliterator<YearMonth> {
 
-  static final class IncrementingYearMonthSpliterator extends AbstractYearMonthSpliterator {
+    // move the bridge methods here
+
+    YearMonthSpliterator(YearMonth current, long left) {
+      super(current, left);
+    }
+
+  }
+
+  static final class IncrementingYearMonthSpliterator extends YearMonthSpliterator {
 
     IncrementingYearMonthSpliterator(YearMonth current, long left) {
       super(current, left);
     }
 
     @Override
-    protected YearMonth advance(YearMonth current) {
-      return current.plusMonths(1L);
+    Spliterator<YearMonth> newInstance(YearMonth current, long left) {
+      return new IncrementingYearMonthSpliterator(current, left);
+    }
+
+    @Override
+    protected YearMonth advance(YearMonth current, long count) {
+      return current.plusMonths(count);
     }
 
   }
 
-  static final class DecrementingYearMonthSpliterator extends AbstractYearMonthSpliterator {
+  static final class DecrementingYearMonthSpliterator extends YearMonthSpliterator {
 
     DecrementingYearMonthSpliterator(YearMonth current, long left) {
       super(current, left);
     }
 
     @Override
-    protected YearMonth advance(YearMonth current) {
-      return current.minusMonths(1L);
+    Spliterator<YearMonth> newInstance(YearMonth current, long left) {
+      return new DecrementingYearMonthSpliterator(current, left);
+    }
+
+    @Override
+    protected YearMonth advance(YearMonth current, long count) {
+      return current.minusMonths(count);
     }
 
   }
