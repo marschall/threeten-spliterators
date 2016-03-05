@@ -1,6 +1,6 @@
 package com.github.marschall.threeten.spliterators;
 
-import static java.time.temporal.ChronoUnit.DAYS;
+import static java.time.temporal.ChronoUnit.MONTHS;
 
 import java.time.YearMonth;
 import java.util.Spliterator;
@@ -15,20 +15,20 @@ public final class YearMonthStream {
   }
 
   public static Stream<YearMonth> range(YearMonth startInclusive, YearMonth endExclusive) {
-    long daysBetween = DAYS.between(startInclusive, endExclusive);
-    if (daysBetween == 0) {
+    long monthsBetween = MONTHS.between(startInclusive, endExclusive);
+    if (monthsBetween == 0) {
       return Stream.empty();
     }
-    return StreamSupport.stream(new YearMonthSpliterator(startInclusive, daysBetween), false);
+    return StreamSupport.stream(new YearMonthSpliterator(startInclusive, monthsBetween), false);
   }
 
 
   public static Stream<YearMonth> rangeClosed(YearMonth startInclusive, YearMonth endInclusive) {
-    long daysBetween = DAYS.between(startInclusive, endInclusive);
-    if (daysBetween == 0) {
+    long monthsBetween = MONTHS.between(startInclusive, endInclusive);
+    if (monthsBetween == 0) {
       return Stream.empty();
     }
-    return StreamSupport.stream(new YearMonthSpliterator(startInclusive, daysBetween + 1L), false);
+    return StreamSupport.stream(new YearMonthSpliterator(startInclusive, monthsBetween + 1L), false);
   }
 
   static final class YearMonthSpliterator implements Spliterator<YearMonth> {
