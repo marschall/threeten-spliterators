@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.time.YearMonth;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -26,10 +27,24 @@ public class YearMonthStreamTest {
   }
 
   @Test
+  public void skip() {
+    Stream<YearMonth> stream = YearMonthStream.rangeClosed(YearMonth.of(2016, 1), YearMonth.of(2016, 12)).skip(10L);
+    List<YearMonth> actual = stream.collect(Collectors.toList());
+    assertEquals(Arrays.asList(YearMonth.of(2016, 11), YearMonth.of(2016, 12)), actual);
+  }
+
+  @Test
   public void rangeClosed() {
     Stream<YearMonth> stream = YearMonthStream.rangeClosed(YearMonth.of(2016, 1), YearMonth.of(2016, 2));
     List<YearMonth> actual = stream.collect(Collectors.toList());
     assertEquals(Arrays.asList(YearMonth.of(2016, 1), YearMonth.of(2016, 2)), actual);
+  }
+
+  @Test
+  public void rangeClosedOne() {
+    Stream<YearMonth> stream = YearMonthStream.rangeClosed(YearMonth.of(2016, 1), YearMonth.of(2016, 1));
+    List<YearMonth> actual = stream.collect(Collectors.toList());
+    assertEquals(Collections.singletonList(YearMonth.of(2016, 1)), actual);
   }
 
 }

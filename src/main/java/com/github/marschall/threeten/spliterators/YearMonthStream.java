@@ -19,19 +19,16 @@ public final class YearMonthStream {
     if (monthsBetween == 0) {
       return Stream.empty();
     }
-    return StreamSupport.stream(new YearMonthSpliterator(startInclusive, monthsBetween), false);
+    return StreamSupport.stream(new IncrementingYearMonthSpliterator(startInclusive, monthsBetween), false);
   }
 
 
   public static Stream<YearMonth> rangeClosed(YearMonth startInclusive, YearMonth endInclusive) {
     long monthsBetween = MONTHS.between(startInclusive, endInclusive);
-    if (monthsBetween == 0) {
-      return Stream.empty();
-    }
-    return StreamSupport.stream(new YearMonthSpliterator(startInclusive, monthsBetween + 1L), false);
+    return StreamSupport.stream(new IncrementingYearMonthSpliterator(startInclusive, monthsBetween + 1L), false);
   }
 
-  static final class YearMonthSpliterator implements Spliterator<YearMonth> {
+  static abstract class AbstractYearMonthSpliterator implements Spliterator<YearMonth> {
 
     /**
      * Position of the next read.
@@ -40,7 +37,7 @@ public final class YearMonthStream {
     private long left;
 
 
-    YearMonthSpliterator(YearMonth current, long left) {
+    AbstractYearMonthSpliterator(YearMonth current, long left) {
       this.current = current;
       this.left = left;
     }
@@ -49,10 +46,16 @@ public final class YearMonthStream {
     public void forEachRemaining(Consumer<? super YearMonth> action) {
       while (this.left > 0) {
         action.accept(this.current);
-        this.current = this.current.plusMonths(1L);
+        this.current = advance();
         this.left -= 1;
       }
     }
+
+    private YearMonth advance() {
+      return this.advance(this.current);
+    }
+
+    abstract YearMonth advance(YearMonth current);
 
     @Override
     public boolean tryAdvance(Consumer<? super YearMonth> action) {
@@ -60,7 +63,7 @@ public final class YearMonthStream {
         return false;
       }
       action.accept(this.current);
-      this.current = this.current.plusMonths(1L);
+      this.current = advance();
       this.left -= 1;
       return true;
     }
@@ -73,7 +76,7 @@ public final class YearMonthStream {
       }
       long half = this.left / 2L;
       this.left -= half;
-      Spliterator<YearMonth> result = new YearMonthSpliterator(this.current.plusMonths(this.left), half);
+      Spliterator<YearMonth> result = new IncrementingYearMonthSpliterator(this.current.plusMonths(this.left), half);
       return result;
     }
     @Override
@@ -88,6 +91,33 @@ public final class YearMonthStream {
     @Override
     public int characteristics() {
       return Spliterator.SUBSIZED;
+    }
+
+  }
+
+
+  static final class IncrementingYearMonthSpliterator extends AbstractYearMonthSpliterator {
+
+    IncrementingYearMonthSpliterator(YearMonth current, long left) {
+      super(current, left);
+    }
+
+    @Override
+    protected YearMonth advance(YearMonth current) {
+      return current.plusMonths(1L);
+    }
+
+  }
+
+  static final class DecrementingYearMonthSpliterator extends AbstractYearMonthSpliterator {
+
+    DecrementingYearMonthSpliterator(YearMonth current, long left) {
+      super(current, left);
+    }
+
+    @Override
+    protected YearMonth advance(YearMonth current) {
+      return current.minusMonths(1L);
     }
 
   }
