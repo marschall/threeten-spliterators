@@ -7,6 +7,9 @@ import java.util.Spliterator;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
+/**
+ * Factory methods for streams over ranges of {@link LocalDate}s.
+ */
 public final class LocalDateStreams {
 
   private LocalDateStreams() {

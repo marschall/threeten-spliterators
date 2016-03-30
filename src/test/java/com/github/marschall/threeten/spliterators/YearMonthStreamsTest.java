@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 
 import org.junit.Test;
 
-public class YearMonthStreamTest {
+public class YearMonthStreamsTest {
 
   @Test
   public void emptyRange() {
