@@ -1,4 +1,4 @@
-JSR-310 Spliterators [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.marschall/threeten-spliterators/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.marschall/threeten-spliterators)
+JSR-310 Spliterators [![Build Status](https://travis-ci.org/marschall/threeten-spliterators.png?branch=master)](https://travis-ci.org/marschall/threeten-spliterators) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.marschall/threeten-spliterators/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.marschall/threeten-spliterators)
 ====================
 
 Spliterators for JSR-310 (Java Date Time API) data types allowing you to create streams over JSR-310 data types.
