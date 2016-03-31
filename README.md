@@ -23,3 +23,4 @@ YearMonthStreams.rangeClosed(YearMonth.of(2016, 1), YearMonth.of(2016, 12))
 
 All the stream methods like `#map` or `#filter` are available.
 
+For more information check out the [Javadoc](http://www.javadoc.io/doc/com.github.marschall/threeten-spliterators).
