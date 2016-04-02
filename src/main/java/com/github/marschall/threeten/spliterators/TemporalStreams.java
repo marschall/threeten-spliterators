@@ -12,7 +12,7 @@ import java.util.stream.StreamSupport;
  * Factory methods for streams over ranges of {@link Temporal}s
  * with an arbitrary increment.
  */
-final class TemporalStreams {
+public final class TemporalStreams {
 
   private TemporalStreams() {
     throw new AssertionError("not instantiable");
@@ -31,7 +31,7 @@ final class TemporalStreams {
    * @return a sequential {@code Stream} for the range of {@code Temporal}
    *         elements
    */
-  static <T extends Temporal & Comparable<?>> Stream<T> range(T startInclusive, T endExclusive, TemporalAdjuster adjuster) {
+  public static <T extends Temporal & Comparable<?>> Stream<T> range(T startInclusive, T endExclusive, TemporalAdjuster adjuster) {
     if (((Comparable) startInclusive).compareTo(endExclusive) <= 0) {
       return StreamSupport.stream(new AscendingExclusiveTemporalSpliterator<>(startInclusive, endExclusive, adjuster), false);
     } else {
@@ -52,7 +52,7 @@ final class TemporalStreams {
    * @return a sequential {@code Stream} for the range of {@code Temporal}
    *         elements
    */
-  static <T extends Temporal & Comparable<?>> Stream<T> rangeClosed(T startInclusive, T endInclusive, TemporalAdjuster adjuster) {
+  public static <T extends Temporal & Comparable<?>> Stream<T> rangeClosed(T startInclusive, T endInclusive, TemporalAdjuster adjuster) {
     if (((Comparable) startInclusive).compareTo(endInclusive) <= 0) {
       return StreamSupport.stream(new AscendingInclusiveTemporalSpliterator<>(startInclusive, endInclusive, adjuster), false);
     } else {
