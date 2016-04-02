@@ -11,6 +11,9 @@ import java.util.stream.StreamSupport;
 /**
  * Factory methods for streams over ranges of {@link Temporal}s
  * with an arbitrary increment.
+ *
+ * @implNote
+ * The {@link Spliterator}s backing the streams will not support splitting.
  */
 public final class TemporalStreams {
 
@@ -116,7 +119,7 @@ public final class TemporalStreams {
 
     @Override
     public int characteristics() {
-      return IMMUTABLE & NONNULL;
+      return IMMUTABLE | NONNULL;
     }
   }
 
