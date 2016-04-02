@@ -1,9 +1,11 @@
 package com.github.marschall.threeten.spliterators;
 
 import java.util.Spliterator;
-import java.util.function.Consumer;
+import java.util.function.Consumer;;
 
 abstract class AdvancingSpliterator<T> implements Spliterator<T> {
+
+  private static final int CHARACTERISTIS = SIZED & SUBSIZED & IMMUTABLE & NONNULL;
 
   /**
    * Position of the next read.
@@ -71,7 +73,7 @@ abstract class AdvancingSpliterator<T> implements Spliterator<T> {
 
   @Override
   public int characteristics() {
-    return Spliterator.SUBSIZED;
+    return CHARACTERISTIS;
   }
 
 }
