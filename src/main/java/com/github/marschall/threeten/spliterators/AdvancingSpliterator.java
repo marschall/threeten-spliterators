@@ -5,7 +5,7 @@ import java.util.function.Consumer;;
 
 abstract class AdvancingSpliterator<T> implements Spliterator<T> {
 
-  private static final int CHARACTERISTIS = SIZED | SUBSIZED | IMMUTABLE | NONNULL;
+  private static final int CHARACTERISTIS = SIZED | SUBSIZED | IMMUTABLE | NONNULL | DISTINCT;
 
   /**
    * Position of the next read.
