@@ -34,8 +34,8 @@ public final class TemporalStreams {
    * @return a sequential {@code Stream} for the range of {@code Temporal}
    *         elements
    */
-  public static <T extends Temporal & Comparable<?>> Stream<T> range(T startInclusive, T endExclusive, TemporalAdjuster adjuster) {
-    if (((Comparable) startInclusive).compareTo(endExclusive) <= 0) {
+  public static <T extends Temporal & Comparable<? super T>> Stream<T> range(T startInclusive, T endExclusive, TemporalAdjuster adjuster) {
+    if (startInclusive.compareTo(endExclusive) <= 0) {
       return StreamSupport.stream(new AscendingExclusiveTemporalSpliterator<>(startInclusive, endExclusive, adjuster), false);
     } else {
       return StreamSupport.stream(new DescendingExclusiveTemporalSpliterator<>(startInclusive, endExclusive, adjuster), false);
@@ -55,15 +55,15 @@ public final class TemporalStreams {
    * @return a sequential {@code Stream} for the range of {@code Temporal}
    *         elements
    */
-  public static <T extends Temporal & Comparable<?>> Stream<T> rangeClosed(T startInclusive, T endInclusive, TemporalAdjuster adjuster) {
-    if (((Comparable) startInclusive).compareTo(endInclusive) <= 0) {
+  public static <T extends Temporal & Comparable<? super T>> Stream<T> rangeClosed(T startInclusive, T endInclusive, TemporalAdjuster adjuster) {
+    if (startInclusive.compareTo(endInclusive) <= 0) {
       return StreamSupport.stream(new AscendingInclusiveTemporalSpliterator<>(startInclusive, endInclusive, adjuster), false);
     } else {
       return StreamSupport.stream(new DescendingInclusiveTemporalSpliterator<>(startInclusive, endInclusive, adjuster), false);
     }
   }
 
-  static abstract class TemporalSpliterator<T extends Temporal & Comparable<?>> implements Spliterator<T> {
+  static abstract class TemporalSpliterator<T extends Temporal & Comparable<? super T>> implements Spliterator<T> {
 
     /**
      * Position of the next read.
@@ -123,7 +123,7 @@ public final class TemporalStreams {
     }
   }
 
-  static final class AscendingInclusiveTemporalSpliterator<T extends Temporal & Comparable<?>> extends TemporalSpliterator<T> {
+  static final class AscendingInclusiveTemporalSpliterator<T extends Temporal & Comparable<? super T>> extends TemporalSpliterator<T> {
 
     AscendingInclusiveTemporalSpliterator(T current, T last, TemporalAdjuster adjuster) {
       super(current, last, adjuster);
@@ -131,12 +131,12 @@ public final class TemporalStreams {
 
     @Override
     boolean isAtEnd(T current, T last) {
-      return ((Comparable) current).compareTo(last) > 0;
+      return current.compareTo(last) > 0;
     }
 
   }
 
-  static final class AscendingExclusiveTemporalSpliterator<T extends Temporal & Comparable<?>> extends TemporalSpliterator<T> {
+  static final class AscendingExclusiveTemporalSpliterator<T extends Temporal & Comparable<? super T>> extends TemporalSpliterator<T> {
 
     AscendingExclusiveTemporalSpliterator(T current, T last, TemporalAdjuster adjuster) {
       super(current, last, adjuster);
@@ -144,12 +144,12 @@ public final class TemporalStreams {
 
     @Override
     boolean isAtEnd(T current, T last) {
-      return ((Comparable) current).compareTo(last) >= 0;
+      return current.compareTo(last) >= 0;
     }
 
   }
 
-  static final class DescendingInclusiveTemporalSpliterator<T extends Temporal & Comparable<?>> extends TemporalSpliterator<T> {
+  static final class DescendingInclusiveTemporalSpliterator<T extends Temporal & Comparable<? super T>> extends TemporalSpliterator<T> {
 
     DescendingInclusiveTemporalSpliterator(T current, T last, TemporalAdjuster adjuster) {
       super(current, last, adjuster);
@@ -157,12 +157,12 @@ public final class TemporalStreams {
 
     @Override
     boolean isAtEnd(T current, T last) {
-      return ((Comparable) current).compareTo(last) < 0;
+      return current.compareTo(last) < 0;
     }
 
   }
 
-  static final class DescendingExclusiveTemporalSpliterator<T extends Temporal & Comparable<?>> extends TemporalSpliterator<T> {
+  static final class DescendingExclusiveTemporalSpliterator<T extends Temporal & Comparable<? super T>> extends TemporalSpliterator<T> {
 
     DescendingExclusiveTemporalSpliterator(T current, T last, TemporalAdjuster adjuster) {
       super(current, last, adjuster);
@@ -170,7 +170,7 @@ public final class TemporalStreams {
 
     @Override
     boolean isAtEnd(T current, T last) {
-      return ((Comparable) current).compareTo(last) <= 0;
+      return current.compareTo(last) <= 0;
     }
 
   }
