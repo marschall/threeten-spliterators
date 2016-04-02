@@ -19,6 +19,21 @@ public class TemporalStreamsTest {
     Stream<LocalDate> stream = TemporalStreams.rangeClosed(LocalDate.of(2016, 1, 1), LocalDate.of(2016, 1, 31), TemporalAdjusters.next(DayOfWeek.MONDAY));
     List<LocalDate> actual = stream.collect(Collectors.toList());
     assertEquals(Arrays.asList(LocalDate.of(2016, 1, 1), LocalDate.of(2016, 1, 4), LocalDate.of(2016, 1, 11), LocalDate.of(2016, 1, 18), LocalDate.of(2016, 1, 25)), actual);
+
+    stream = TemporalStreams.rangeClosed(LocalDate.of(2016, 1, 4), LocalDate.of(2016, 1, 25), TemporalAdjusters.next(DayOfWeek.MONDAY));
+    actual = stream.collect(Collectors.toList());
+    assertEquals(Arrays.asList(LocalDate.of(2016, 1, 4), LocalDate.of(2016, 1, 11), LocalDate.of(2016, 1, 18), LocalDate.of(2016, 1, 25)), actual);
+  }
+
+  @Test
+  public void range() {
+    Stream<LocalDate> stream = TemporalStreams.range(LocalDate.of(2016, 1, 1), LocalDate.of(2016, 1, 31), TemporalAdjusters.next(DayOfWeek.MONDAY));
+    List<LocalDate> actual = stream.collect(Collectors.toList());
+    assertEquals(Arrays.asList(LocalDate.of(2016, 1, 1), LocalDate.of(2016, 1, 4), LocalDate.of(2016, 1, 11), LocalDate.of(2016, 1, 18), LocalDate.of(2016, 1, 25)), actual);
+
+    stream = TemporalStreams.range(LocalDate.of(2016, 1, 4), LocalDate.of(2016, 1, 25), TemporalAdjusters.next(DayOfWeek.MONDAY));
+    actual = stream.collect(Collectors.toList());
+    assertEquals(Arrays.asList(LocalDate.of(2016, 1, 4), LocalDate.of(2016, 1, 11), LocalDate.of(2016, 1, 18)), actual);
   }
 
 }
