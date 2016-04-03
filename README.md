@@ -21,6 +21,20 @@ YearMonthStreams.rangeClosed(YearMonth.of(2016, 1), YearMonth.of(2016, 12))
 });
 ```
 
+Besides the predefined iterations by day for `LocalDate` and month for `YearMonth` we offer a generic way to iterate over any `Temporal` with any increment given by a `TemporalAdjuster`.
+
+For example you can iterate over all Mondays.
+
+```java
+LocalDate start = LocalDate.of(2016, 1, 1).with(nextOrSame(MONDAY));
+LocalDate end = LocalDate.of(2016, 1, 1).with(lastDayOfMonth());
+TemporalStreams.rangeClosed(start, end, next(MONDAY))
+  .forEach((localDate) -> {
+    // body
+});
+```
+
+
 All the stream methods like `#map` or `#filter` are available.
 
 For more information check out the [Javadoc](http://www.javadoc.io/doc/com.github.marschall/threeten-spliterators).
