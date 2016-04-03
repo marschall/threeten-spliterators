@@ -31,6 +31,8 @@ public final class TemporalStreams {
    *
    * @param startInclusive the (inclusive) initial value
    * @param endExclusive the exclusive bound
+   * @param adjuster creates the values in the stream
+   * @param <T> the type of stream elements
    * @return a sequential {@code Stream} for the range of {@code Temporal}
    *         elements
    */
@@ -52,6 +54,8 @@ public final class TemporalStreams {
    *
    * @param startInclusive the (inclusive) initial value
    * @param endInclusive the inclusive bound
+   * @param adjuster creates the values in the stream
+   * @param <T> the type of stream elements
    * @return a sequential {@code Stream} for the range of {@code Temporal}
    *         elements
    */

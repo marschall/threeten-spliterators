@@ -78,6 +78,15 @@
           <links>
             <link>http://docs.oracle.com/javase/8/docs/api/</link>
           </links>
+          <tags>
+            <tag>
+              <!-- https://maven.apache.org/plugins/maven-javadoc-plugin/examples/tag-configuration.html -->
+              <!-- http://blog.codefx.org/java/new-javadoc-tags/ -->
+              <name>implNote</name>
+              <head>Implementation Note:</head>
+              <placement>a</placement>
+            </tag>
+          </tags>
         </configuration>
         <executions>
           <execution>
