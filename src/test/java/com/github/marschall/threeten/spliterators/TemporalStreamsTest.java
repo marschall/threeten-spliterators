@@ -1,6 +1,7 @@
 package com.github.marschall.threeten.spliterators;
 
-import static org.junit.Assert.assertEquals;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -11,7 +12,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
 
 public class TemporalStreamsTest {
 
